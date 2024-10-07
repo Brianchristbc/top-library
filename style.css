@@ -1,4 +1,23 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: wheat;
+}
+
 .hero-text {
   background-color: brown;
   color: whitesmoke;
+  text-align: center;
+  padding: 1rem;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 3rem;
+  margin-top: 0;
+}
+
+.bookshelf {
+  background-color: aliceblue;
+  width: 100%;
+  height: auto;
 }
