@@ -1,13 +1,20 @@
+:root {
+  --main-bg-color: #bbbe64;
+  --header-bg-color: #c0c5c1;
+  --text-color: #ffffff;
+  --card-bg-color: #7d8491;
+}
+
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: wheat;
+  background-color: var(--main-bg-color);
 }
 
 .hero-text {
-  background-color: brown;
-  color: whitesmoke;
+  background-color: var(--header-bg-color);
+  color: var(--text-color);
   text-align: center;
   padding: 1rem;
   font-size: 2rem;
@@ -17,7 +24,24 @@ body {
 }
 
 .bookshelf {
-  background-color: aliceblue;
   width: 100%;
   height: auto;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.book {
+  width: 10rem;
+  height: 12rem;
+  border-radius: 1rem;
+  padding: 1rem;
+  background-color: var(--card-bg-color);
+  margin: 1rem 0rem;
+}
+
+.title,
+.author,
+.length,
+.readStatus {
+  color: var(--text-color);
 }
