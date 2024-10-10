@@ -10,6 +10,24 @@
   <body>
     <p class="hero-text">Library</p>
     <button class="addBookButton">Add Book to Library</button>
-    <div class="bookshelf"></div>
+    <button id="show-dialog">Show dialog</button>
+    <dialog id="book-dialog">
+      <h2>Add new book</h2>
+      <form>
+        <label for="title">Title:</label>
+        <input id="title" autofocus type="text" name="title" /><br />
+        <label for="author">Author:</label>
+        <input id="author" type="text" name="author" /><br />
+        <label for="length">Length:</label>
+        <input id="length" type="text" name="length" /><br />
+        <label for="read-status">Read Status:</label>
+        <input id="readStatus" type="text" name="read-status" /><br />
+        <button value="cancel" formmethod="dialog">Cancel</button>
+        <button id="confirmBtn" value="default">Confirm</button>
+      </form>
+    </dialog>
+    <div class="div">
+      <output class="bookshelf"></output>
+    </div>
   </body>
 </html>

@@ -7,13 +7,6 @@ function Book(title, author, length, readStatus) {
     (this.author = author),
     (this.length = length),
     (this.readStatus = readStatus);
-  this.getInfo = function () {
-    return this.author;
-  };
-  this.deleteBook = function () {
-    console.log("t");
-    return;
-  };
 }
 
 function addBookToLibrary() {
@@ -56,15 +49,35 @@ addBookButton.addEventListener("click", () => {
     book.appendChild(readStatus);
     book.appendChild(deleteButton);
     bookshelf.appendChild(book);
-    console.log(myLibrary);
     deleteButton.addEventListener("click", () => {
       book.style.display = "none";
       bookshelf.removeChild(book);
       myLibrary.splice(bookPosition.innerText, 1);
-      console.log(ticker);
-      console.log(bookPosition);
-      console.log(myLibrary);
     });
-    console.log(book.classList);
   }
+});
+
+const dialog = document.querySelector("#book-dialog");
+const showDialog = document.querySelector("#show-dialog");
+const titleInput = document.querySelector("#title");
+const authorInput = document.querySelector("#author");
+const lengthInput = document.querySelector("#length");
+const readStatusInput = document.querySelector("#readStatus");
+const confirmBtn = document.querySelector("#confirmBtn");
+showDialog.addEventListener("click", () => {
+  dialog.showModal();
+});
+
+dialog.addEventListener("close", (e) => {
+  bookshelf.value =
+    dialog.returnValue === "default"
+      ? "No return value."
+      : `Return Value ${dialog.returnValue}.`;
+});
+
+confirmBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  dialog.close(
+    `${titleInput.value}, ${authorInput.value},${lengthInput.value}, ${readStatusInput.value}`
+  );
 });
