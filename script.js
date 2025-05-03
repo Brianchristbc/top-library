@@ -1,83 +1,81 @@
 const myLibrary = [];
-const addBookButton = document.querySelector(".addBookButton");
-const bookshelf = document.querySelector(".bookshelf");
 
-function Book(title, author, length, readStatus) {
-  (this.title = title),
-    (this.author = author),
-    (this.length = length),
-    (this.readStatus = readStatus);
+function Book(title, author, genre) {
+  this.ID = crypto.randomUUID();
+  this.title = title;
+  this.author = author;
+  this.genre = genre;
+  this.isRead = false;
+  this.getInfo = function () {
+    return `${this.title} by ${this.author}, published in the ${this.genre} category.`;
+  };
 }
 
-function addBookToLibrary() {
-  let title = prompt("title");
-  let author = prompt("author");
-  let length = Number(prompt("length"));
-  let readStatus = prompt("readStatus");
-  let bookToAdd = new Book(title, author, length, readStatus);
-  myLibrary.push(bookToAdd);
-}
+const dialogButton = document.getElementById("openDialogButton");
+const closeButton = document.getElementById("closeDialogButton");
+const form = document.getElementById("addBookForm");
+const addBookButton = document.getElementById("addBookButton");
+const displayShelf = document.querySelector(".display-shelf");
+const dialog = document.getElementById("addBookDialog");
+const body = document.querySelector("body");
 
-// Book.prototype.deleteBook = function () {
-//   this.style.backgroundColor = "none";
-// };
-
-addBookButton.addEventListener("click", () => {
-  addBookToLibrary();
-  bookshelf.innerHTML = "";
-  let ticker = -1;
-  for (let item of myLibrary) {
-    ticker++;
-    let book = document.createElement("div");
-    book.classList.add("book");
-    let title = document.createElement("p");
-    title.innerText = `${item.title}`;
-    let author = document.createElement("p");
-    author.innerText = `${item.author}`;
-    let length = document.createElement("p");
-    length.innerText = `${item.length}`;
-    let readStatus = document.createElement("p");
-    readStatus.innerText = `${item.readStatus}`;
-    let deleteButton = document.createElement("button");
-    deleteButton.innerText = "X";
-    let bookPosition = document.createElement("p");
-    bookPosition.innerText = ticker;
-    bookPosition.style.display = "none";
-    book.appendChild(title);
-    book.appendChild(author);
-    book.appendChild(length);
-    book.appendChild(readStatus);
-    book.appendChild(deleteButton);
-    bookshelf.appendChild(book);
-    deleteButton.addEventListener("click", () => {
-      book.style.display = "none";
-      bookshelf.removeChild(book);
-      myLibrary.splice(bookPosition.innerText, 1);
-    });
-  }
-});
-
-const dialog = document.querySelector("#book-dialog");
-const showDialog = document.querySelector("#show-dialog");
-const titleInput = document.querySelector("#title");
-const authorInput = document.querySelector("#author");
-const lengthInput = document.querySelector("#length");
-const readStatusInput = document.querySelector("#readStatus");
-const confirmBtn = document.querySelector("#confirmBtn");
-showDialog.addEventListener("click", () => {
+dialogButton.addEventListener("click", function () {
   dialog.showModal();
 });
 
-dialog.addEventListener("close", (e) => {
-  bookshelf.value =
-    dialog.returnValue === "default"
-      ? "No return value."
-      : `Return Value ${dialog.returnValue}.`;
+closeButton.addEventListener("click", function () {
+  dialog.close();
 });
 
-confirmBtn.addEventListener("click", (event) => {
-  event.preventDefault();
-  dialog.close(
-    `${titleInput.value}, ${authorInput.value},${lengthInput.value}, ${readStatusInput.value}`
-  );
+body.addEventListener("click", function (event) {
+  if (event.target === dialog) {
+    dialog.close();
+  }
 });
+// Find out how to close the dialog when clicking outside of it and avoid closing when clicking on the padding within the dialog
+
+addBookButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  addBook();
+  updateLibrary();
+  form.reset();
+});
+
+function addBook() {
+  let bookTitle = document.getElementById("addBookTitle").value;
+  let bookAuthor = document.getElementById("addBookAuthor").value;
+  let bookGenre = document.getElementById("addBookGenre").value;
+  let newBook = new Book(bookTitle, bookAuthor, bookGenre);
+  myLibrary.push(newBook);
+  console.log(myLibrary);
+}
+
+function updateLibrary() {
+  displayShelf.innerHTML = "";
+  for (let i = 0; i < myLibrary.length; i++) {
+    const book = myLibrary[i];
+    const titleCard = document.createElement("div");
+    titleCard.setAttribute("id", book.ID);
+    titleCard.classList.add("title-card");
+    titleCard.innerText = `${book.title}`;
+    displayShelf.appendChild(titleCard);
+    const authorCard = document.createElement("div");
+    authorCard.classList.add("author-card");
+    authorCard.innerText = `${book.author}`;
+    titleCard.appendChild(authorCard);
+    const genreCard = document.createElement("div");
+    genreCard.classList.add("genre-card");
+    genreCard.innerText = `${book.genre}`;
+    titleCard.appendChild(genreCard);
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("delete-button");
+    deleteButton.innerText = "Delete";
+    titleCard.appendChild(deleteButton);
+    deleteButton.addEventListener("click", function () {
+      myLibrary.splice(i, 1);
+      updateLibrary();
+      console.log(myLibrary);
+    });
+  }
+  dialog.close();
+}
