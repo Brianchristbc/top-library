@@ -1,14 +1,17 @@
 const myLibrary = [];
 
-function Book(title, author, genre) {
-  this.ID = crypto.randomUUID();
-  this.title = title;
-  this.author = author;
-  this.genre = genre;
-  this.isRead = false;
-  this.getInfo = function () {
+class Book {
+  constructor(title, author, genre) {
+    this.ID = crypto.randomUUID();
+    this.title = title;
+    this.author = author;
+    this.genre = genre;
+    this.isRead = false;
+  }
+
+  getInfo() {
     return `${this.title} by ${this.author}, published in the ${this.genre} category.`;
-  };
+  }
 }
 
 const dialogButton = document.getElementById("openDialogButton");
